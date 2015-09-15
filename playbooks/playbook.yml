@@ -6,9 +6,10 @@
     project_name: "tfl"
     project_home: "{{ ansible_env.HOME }}/{{ project_name }}"
     venv_home: "{{ project_home }}/virtualenv"
-    repo_url: ""
-    var1: 'Var1'
-    var2: 'Var2'
+    repo_url: "https://github.com/dvoong/tfl.git"
+    source_path: "{{ project_home }}/source"
+    database_user: "{{ project_name }}"
+    locale: "en_US.UTF8"
   tasks:
     - name: install apt packages
       apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
@@ -19,6 +20,7 @@
         - libpq-dev
         - python-virtualenv
         - python-dev
+        - python-psycopg2
     - name: install python packages
       pip: name={{ item }} virtualenv={{ venv_home }}
       with_items:
@@ -26,15 +28,29 @@
         - twisted
     - name: check out the repository on the host
       git: repo={{ repo_url }} dest={{ source_path }} accept_hostkey=yes
-    - name: test
-      ping:
-      notify: test handler
-    - name: test command
-      command: "echo {{ var1 }}"
-      notify: test handler
-    - debug: var=ansible_ssh_user
-    - debug: var=ansible_env.HOME
-  handlers:
-    - name: test handler
-      ping:
+    - name: Create a db user
+      postgresql_user:
+        name: "{{ database_user }}"
+        password: "{{ lookup('password', 'database_password.txt')}}"
+      sudo: True
+      sudo_user: postgres
+    - name: Create the database
+      postgresql_db:
+        name: "{{ project_name }}"
+        owner: "{{ database_user }}"
+        encoding: UTF8
+        lc_ctype: "{{ locale }}"
+        lc_collate: "{{ locale }}"
+        template: template0
+      sudo: True
+      sudo_user: postgres
+
+#    - name: test
+#      ping:
+#      notify: test handler
+#    - debug: var=ansible_ssh_user
+#    - debug: var=ansible_env.HOME
+#  handlers:
+#    - name: test handler
+#      ping:
   
