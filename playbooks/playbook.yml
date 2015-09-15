@@ -21,11 +21,13 @@
         - python-virtualenv
         - python-dev
         - python-psycopg2
+        - mongodb
     - name: install python packages
       pip: name={{ item }} virtualenv={{ venv_home }}
       with_items:
         - psycopg2
         - twisted
+        - pymongo
     - name: check out the repository on the host
       git: repo={{ repo_url }} dest={{ source_path }} accept_hostkey=yes
     - name: Create a db user
