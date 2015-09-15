@@ -1,5 +1,6 @@
 import json
 import logging
+import datetime
 from twisted.internet.protocol import DatagramProtocol
 from twisted.internet import reactor
 from pymongo import MongoClient
@@ -20,7 +21,8 @@ class Echo(DatagramProtocol):
             collection = db.my_collection
             logging.info('my_collection: {}'.format(collection))
             logging.info('inserting entry into collection:')
-            result = collection.insert_one({'test': 0})
+            json_['datetime'] = datetime.datetime.now()
+            result = collection.insert_one(json_)
             logging.info('returned output: {}'.format(result))
             logging.info('collection contents:')
             cursor = collection.find()
