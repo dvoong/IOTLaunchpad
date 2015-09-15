@@ -1,0 +1,8 @@
+# python byte code files
+*.pyc
+
+# emacs backup files
+*~
+
+# database password file
+playbooks/database_password.txt
