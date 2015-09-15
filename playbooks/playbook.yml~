@@ -1,0 +1,7 @@
+---
+
+- name: Play1
+  hosts: webservers
+  tasks:
+    - name: test
+      ping:

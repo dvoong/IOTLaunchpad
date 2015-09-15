@@ -1,0 +1,40 @@
+---
+
+- name: Play1
+  hosts: webservers
+  vars:
+    project_name: "tfl"
+    project_home: "{{ ansible_env.HOME }}/{{ project_name }}"
+    venv_home: "{{ project_home }}/virtualenv"
+    repo_url: ""
+    var1: 'Var1'
+    var2: 'Var2'
+  tasks:
+    - name: install apt packages
+      apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
+      sudo: True
+      with_items:
+        - git
+        - postgresql
+        - libpq-dev
+        - python-virtualenv
+        - python-dev
+    - name: install python packages
+      pip: name={{ item }} virtualenv={{ venv_home }}
+      with_items:
+        - psycopg2
+        - twisted
+    - name: check out the repository on the host
+      git: repo={{ repo_url }} dest={{ source_path }} accept_hostkey=yes
+    - name: test
+      ping:
+      notify: test handler
+    - name: test command
+      command: "echo {{ var1 }}"
+      notify: test handler
+    - debug: var=ansible_ssh_user
+    - debug: var=ansible_env.HOME
+  handlers:
+    - name: test handler
+      ping:
+  
