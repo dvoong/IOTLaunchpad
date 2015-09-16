@@ -30,9 +30,9 @@ if __name__ == '__main__':
     
     logger.info('Response: {}'.format(response))
 
-    msg = {
-        'x': 10,
-        'y': 11,
-        'z': 12,
-    }
-    response = sock.sendto(json.dumps(msg), (args.ip, args.port))
+    # msg = {
+    #     'x': 10,
+    #     'y': 11,
+    #     'z': 12,
+    # }
+    # response = sock.sendto(json.dumps(msg), (args.ip, args.port))

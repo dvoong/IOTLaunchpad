@@ -6,7 +6,7 @@
     project_name: "tfl"
     project_home: "{{ ansible_env.HOME }}/{{ project_name }}"
     venv_home: "{{ project_home }}/virtualenv"
-    repo_url: "https://github.com/dvoong/tfl.git"
+    repo_url: "https://github.com/dvoong/IOTLaunchpad.git"
     source_path: "{{ project_home }}/source"
     database_user: "{{ project_name }}"
     locale: "en_US.UTF8"
