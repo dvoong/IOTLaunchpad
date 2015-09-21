@@ -3,7 +3,7 @@
 - name: Play1
   hosts: webservers
   vars:
-    project_name: "tfl"
+    project_name: "iotlaunchpad"
     project_home: "{{ ansible_env.HOME }}/{{ project_name }}"
     venv_home: "{{ project_home }}/virtualenv"
     repo_url: "https://github.com/dvoong/IOTLaunchpad.git"

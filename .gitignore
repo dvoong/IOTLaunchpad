@@ -6,3 +6,6 @@
 
 # database password file
 playbooks/database_password.txt
+
+# vagrant vm
+playbooks/.vagrant
